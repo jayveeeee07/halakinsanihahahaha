@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to New Year 2027</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #0c0c2e, #1a1a4a, #2d2d6e);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 1200px;
+            width: 90%;
+            z-index: 10;
+        }
+        
+        .header {
+            margin-bottom: 2.5rem;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4, #fad0c4, #a18cd1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        .year {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #ffcc00;
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.7);
+            letter-spacing: 0.2rem;
+            margin: 0.5rem 0;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem 1rem;
+            min-width: 140px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .countdown-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .countdown-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffcc00;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+        
+        .countdown-label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .music-control {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .music-control:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .music-control i {
+            font-size: 1.5rem;
+            color: #ffcc00;
+        }
+        
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffcc00;
+        }
+        
+        .message {
+            margin-top: 3rem;
+            font-size: 1.5rem;
+            max-width: 800px;
+            line-height: 1.8;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border-left: 5px solid #ffcc00;
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .year {
+                font-size: 4rem;
+            }
+            
+            .countdown-box {
+                min-width: 110px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .countdown-value {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .year {
+                font-size: 3rem;
+            }
+            
+            .countdown-box {
+                min-width: 80px;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fireworks" id="fireworks"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Countdown to New Year</h1>
+            <div class="year">2027</div>
+            <p class="subtitle">Join the celebration as we count down to a brand new year filled with hope, joy, and new beginnings!</p>
+        </div>
+        
+        <div class="countdown-container">
+            <div class="countdown-box">
+                <div class="countdown-value" id="days">00</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            
+            <div class="countdown-box">
+                <div class="countdown-value" id="hours">00</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            
+            <div class="countdown-box">
+                <div class="countdown-value" id="minutes">00</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            
+            <div class="countdown-box">
+                <div class="countdown-value" id="seconds">00</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+        
+        <div class="music-control pulse" id="musicControl">
+            <i class="fas fa-play"></i>
+            <span>Click to start celebration music</span>
+        </div>
+        
+        <div class="message">
+            <p>As we count down to 2027, let's reflect on the past and welcome the future with open hearts. Wishing you a year filled with happiness, success, and prosperity!</p>
+        </div>
+        
+        <div class="footer">
+            <p>Made with <i class="fas fa-heart" style="color: #ff4757;"></i> for New Year 2027 Celebration</p>
+        </div>
+    </div>
+
+    <!-- Hidden audio element for background music -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-new-year-2021-1083.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-new-year-2021-1083.mp3" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Set the target date (January 1, 2027)
+        const targetDate = new Date("January 1, 2027 00:00:00").getTime();
+        
+        // Get DOM elements
+        const daysElement = document.getElementById("days");
+        const hoursElement = document.getElementById("hours");
+        const minutesElement = document.getElementById("minutes");
+        const secondsElement = document.getElementById("seconds");
+        const musicControl = document.getElementById("musicControl");
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const fireworksContainer = document.getElementById("fireworks");
+        
+        // Music control
+        let musicPlaying = false;
+        
+        // Function to update countdown
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeRemaining = targetDate - now;
+            
+            // Calculate days, hours, minutes, seconds
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            
+            // Update the display
+            daysElement.textContent = days.toString().padStart(2, '0');
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
+            
+            // Create more fireworks as we get closer to new year
+            if (timeRemaining < 60000) { // Last minute
+                createFireworks(5);
+            } else if (timeRemaining < 3600000) { // Last hour
+                createFireworks(2);
+            } else if (timeRemaining < 86400000) { // Last day
+                createFireworks(1);
+            }
+            
+            // If countdown is over
+            if (timeRemaining < 0) {
+                clearInterval(countdownInterval);
+                daysElement.textContent = "00";
+                hoursElement.textContent = "00";
+                minutesElement.textContent = "00";
+                secondsElement.textContent = "00";
+                
+                // Create celebration effect
+                document.querySelector(".year").textContent = "Happy New Year 2027!";
+                document.querySelector(".year").style.animation = "pulse 0.5s infinite";
+                createFireworks(20);
+                
+                // Play music automatically if not already playing
+                if (!musicPlaying) {
+                    backgroundMusic.play();
+                    musicPlaying = true;
+                    musicControl.innerHTML = '<i class="fas fa-pause"></i><span>Celebration music playing - Click to pause</span>';
+                    musicControl.classList.remove("pulse");
+                }
+            }
+        }
+        
+        // Function to create fireworks
+        function createFireworks(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement("div");
+                    firework.classList.add("firework");
+                    
+                    // Random position
+                    const xPos = Math.random() * 100;
+                    const yPos = Math.random() * 100;
+                    
+                    // Random color
+                    const colors = ["#ffcc00", "#ff4757", "#2ed573", "#1e90ff", "#ff6b81"];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    firework.style.left = `${xPos}%`;
+                    firework.style.top = `${yPos}%`;
+                    firework.style.backgroundColor = color;
+                    firework.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+                    
+                    fireworksContainer.appendChild(firework);
+                    
+                    // Firework animation
+                    let size = 5;
+                    const growInterval = setInterval(() => {
+                        size += 5;
+                        firework.style.width = `${size}px`;
+                        firework.style.height = `${size}px`;
+                        firework.style.opacity = `${1 - size/100}`;
+                        
+                        if (size > 100) {
+                            clearInterval(growInterval);
+                            firework.remove();
+                        }
+                    }, 30);
+                }, i * 200);
+            }
+        }
+        
+        // Toggle music playback
+        musicControl.addEventListener("click", function() {
+            if (musicPlaying) {
+                backgroundMusic.pause();
+                musicPlaying = false;
+                this.innerHTML = '<i class="fas fa-play"></i><span>Click to resume celebration music</span>';
+                this.classList.add("pulse");
+            } else {
+                // User interaction required to play audio
+                backgroundMusic.play().then(() => {
+                    musicPlaying = true;
+                    this.innerHTML = '<i class="fas fa-pause"></i><span>Celebration music playing - Click to pause</span>';
+                    this.classList.remove("pulse");
+                }).catch(error => {
+                    console.log("Audio play failed:", error);
+                    this.innerHTML = '<i class="fas fa-play"></i><span>Click to start celebration music</span>';
+                });
+            }
+        });
+        
+        // Create occasional fireworks
+        setInterval(() => {
+            createFireworks(1);
+        }, 3000);
+        
+        // Initialize the countdown
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        // Create initial fireworks
+        createFireworks(5);
+        
+        // Instructions for user
+        console.log("🎉 New Year 2027 Countdown 🎉");
+        console.log("Click the music control button to start the celebration music!");
+        console.log("Fireworks will increase as we get closer to 2027!");
+    </script>
+</body>
+</html>
